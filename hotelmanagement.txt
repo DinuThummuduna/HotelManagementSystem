@@ -1,0 +1,152 @@
+DROP DATABASE IF EXISTS Hotelmanagement;
+CREATE DATABASE Hotelmanagement;
+USE Hotelmanagement;
+
+-- Table for Room Categories
+CREATE TABLE RoomCategory (
+    RoomCategoryId INT PRIMARY KEY AUTO_INCREMENT,
+    CategoryName VARCHAR(50) NOT NULL,
+    Description TEXT,
+    PricePerNight DECIMAL(10, 2) NOT NULL
+);
+
+-- Table for Rooms
+CREATE TABLE Room (
+    RoomId VARCHAR(10) PRIMARY KEY AUTO_INCREMENT,
+    RoomNumber VARCHAR(10) NOT NULL,
+    RoomCategoryId VARCHAR(5),
+    OccupancyStatus VARCHAR(20) DEFAULT 'Available',
+    MaintenanceStatus VARCHAR(20) DEFAULT 'Not in Maintenance',
+    FOREIGN KEY (RoomCategoryId) REFERENCES RoomCategory(RoomCategoryId)
+);
+
+-- Table for Customers
+CREATE TABLE Customer (
+    CustomerId INT PRIMARY KEY AUTO_INCREMENT,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    Email VARCHAR(100) UNIQUE NOT NULL,
+    PhoneNumber VARCHAR(15),
+    PRIMARY KEY (CustomerId)
+);
+
+-- Table for Reservations
+CREATE TABLE Reservation (
+    
+    CustomerId INT,
+    Name VARCHAR(50),
+    ReservationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CheckInDate DATE NOT NULL,
+    CheckOutDate DATE NOT NULL,
+    NoOfDaysStay INT,
+    ReservationAmount DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (CustomerId) REFERENCES Customer(CustomerId)
+    
+);
+
+-- Table for Packages
+CREATE TABLE Package (
+    PackageId INT PRIMARY KEY AUTO_INCREMENT,
+    PackageType VARCHAR(20) NOT NULL,
+    Description TEXT,
+    PackageAmount DECIMAL(10, 2) NOT NULL,
+    PRIMARY KEY (PackageId)
+);
+
+-- Table for Userlogin
+CREATE TABLE userlogin (
+    emailId VARCHAR(50),
+    password VARCHAR(20)
+);
+
+-- Table for CustomerPackages
+CREATE TABLE CustomerPackages (
+    CustomerId INT,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    PackageType VARCHAR(20),
+    NoOfPersons VARCHAR(10),
+    AmountForPackage DECIMAL(10, 2)
+);
+
+
+-- Table for CustomerRooms
+CREATE TABLE CustomerRooms (
+    CustomerId INT,
+    Name VARCHAR(50),
+    RoomCategoryId INT,
+    CategoryName VARCHAR(20), 
+    NoOfRooms INT,
+    AmountForRoom DECIMAL(10, 2)
+);
+
+
+INSERT INTO CustomerRooms Values(1, 'Nimal Weerasighe', 2, 'Double Room', 1, 8500.00);
+INSERT INTO CustomerRooms Values(2, 'Supun Perera', 2, 'Double Room', 1, 8500.00);
+INSERT INTO CustomerRooms Values(3, 'Kumari Bandara', 1, 'Single Room', 1, 5000.00);
+INSERT INTO CustomerRooms Values(4, 'Piumali Samarasinghe', 2, 'Double Room', 2, 17000.00);
+
+#*************************************************************************************************************************************************************************
+
+
+
+INSERT INTO RoomCategory Values('RC001', Single Room', 'can only stay 1 person. Room exists with single bed, private bathroom, TV, Free WiFi',5000.00);
+INSERT INTO RoomCategory Values('RC002', Double Room', 'can only stay 2 persons. Room exists with double bed, private bathroom, TV, Free WiFi',8500.00);
+INSERT INTO RoomCategory Values('RC003', Thriple Room', 'can only stay 3 persons. Room exists with double bed and single bed, private bathroom, TV, Free WiFi',13500.00);
+INSERT INTO RoomCategory Values('RC004', Quad Room', 'can only stay 4 persons. Room exists with 2 double beds, private bathroom, TV, Free WiFi',18000.00);
+INSERT INTO RoomCategory Values('RC005', Twin Room', 'can only stay 2 persons. Room exists with seperate 2 single beds, private bathroom, TV, Free WiFi',8500.00);
+
+#***************************************************************************************************************************************************************
+
+
+INSERT INTO Room Values('RC1001', 'S101', 'RC001', 'Available', 'Not in Maintenance');
+INSERT INTO Room Values('RC1002', 'S102', 'RC001', 'Available', 'Not in Maintenance');
+INSERT INTO Room Values('RC1003', 'S103', 'RC001', 'Available', 'Not in Maintenance');
+INSERT INTO Room Values('RC1004', 'S104', 'RC001', 'Available', 'Not in Maintenance');
+INSERT INTO Room Values('RC2001', 'D105', 'RC002', 'Available', 'Not in Maintenance');
+INSERT INTO Room Values('RC2002', 'D106', 'RC002', 'Available', 'Not in Maintenance');
+INSERT INTO Room Values('RC2003', 'D107', 'RC002', 'Available', 'Not in Maintenance');
+INSERT INTO Room Values('RC2004', 'D108', 'RC002', 'Available', 'Not in Maintenance');
+INSERT INTO Room Values('RC3001', 'T109', 'RC003', 'Available', 'Not in Maintenance');
+INSERT INTO Room Values('RC3002', 'T110', 'RC003', 'Available', 'Not in Maintenance');
+INSERT INTO Room Values('RC3003', 'T111', 'RC003', 'Available', 'Not in Maintenance');
+INSERT INTO Room Values('RC3004', 'T112', 'RC003', 'Available', 'Not in Maintenance');
+INSERT INTO Room Values('RC4001', 'Q113', 'RC004', 'Available', 'Not in Maintenance');
+INSERT INTO Room Values('RC4002', 'Q114', 'RC004', 'Available', 'Not in Maintenance');
+INSERT INTO Room Values('RC4003', 'Q115', 'RC004', 'Available', 'Not in Maintenance');
+INSERT INTO Room Values('RC4004', 'Q116', 'RC004', 'Available', 'Not in Maintenance');
+INSERT INTO Room Values('RC5001', 'TS117', 'RC005', 'Available', 'Not in Maintenance');
+INSERT INTO Room Values('RC5002', 'TS118', 'RC005', 'Available', 'Not in Maintenance');
+INSERT INTO Room Values('RC5003', 'TS119', 'RC005', 'Available', 'Not in Maintenance');
+INSERT INTO Room Values('RC5004', 'TS120', 'RC005', 'Available', 'Not in Maintenance');
+
+#***************************************************************************************************************************************************************
+
+INSERT INTO Customer Values(001, 'Nimal', 'Weerasinghe', 'nimalweerasinghe@gmail.com', '0774586954');
+INSERT INTO Customer Values(002, 'Supun', 'Perera', 'supunperera@gmail.com', '0717856328');
+INSERT INTO Customer Values(003, 'Kumari', 'Bandara', 'kumaribandara@gmail.com', '07678569632');
+INSERT INTO Customer Values(004, 'piumali', 'Samarasinghe', 'piumalisamarasinghe@gmail.com', '0758695781');
+
+#***************************************************************************************************************************************************************
+
+INSERT INTO Reservation Values(1, 'Nimal Weerasinghe', '2024-02-24', '2024-03-01', '2024-03-02', 1, 5000.00);
+INSERT INTO Reservation Values(2, 'Supun Perera', '2024-02-24', '2024-03-05', '2024-03-06', 1, 5000.00);
+INSERT INTO Reservation Values(3, 'Kumari Bandara', '2024-02-24', '2024-03-11', '2024-03-12', 1, 5000.00);
+INSERT INTO Reservation Values(4, 'Piumali Samarasinghe', '2024-02-24', '2024-03-16', '2024-03-17', 1, 5000.00);
+#***************************************************************************************************************************************************************
+
+INSERT INTO Package Values(01, 'Full board', 'Includes welcome drink, lunch, evening tea with snacks, dinner and the next day breakfast',5500.00);
+INSERT INTO Package Values(02, 'Half board', 'Includes welcome drink, evening tea with snacks, dinner and the next day breakfast',4000.00);
+INSERT INTO Package Values(03, 'Day out', 'Includes welcome drink, lunch, evening tea with snacks, 2500);
+
+#***************************************************************************************************************************************************************
+
+INSERT INTO userlogin Values('nimalisilva@gmail.com', 'nimali17');
+INSERT INTO userlogin Values('sunilkumara@gmail,com', 'sunil16');
+
+
+
+INSERT INTO CustomerPackages Values(001, 'Nimal', 'Weerasinghe','Full Board', '2', 11000.00);
+INSERT INTO CustomerPackages Values(002, 'Supun', 'Perera','Half Board', '2', 8000.00);
+INSERT INTO CustomerPackages Values(003, 'Kumari', 'Bandara','Day out', '10', 25000.00);
+INSERT INTO CustomerPackages Values(004, 'piumali', 'Samarasinghe','Full Board', '4', 22000.00);
